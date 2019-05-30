@@ -8,6 +8,15 @@ const particleImages = [
 ];
 
 export const commands = {
+  jump: {
+    input: ['keyboard.UP'],
+  },
+  left: {
+    input: ['keyboard.LEFT'],
+  },
+  right: {
+    input: ['keyboard.RIGHT'],
+  },
 };
 
 export const shaderCoordFragments = null;

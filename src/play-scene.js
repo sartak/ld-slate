@@ -99,6 +99,22 @@ export default class PlayScene extends SuperScene {
   }
 
   fixedUpdate(time, dt) {
+    const {command, player} = this;
+
+    if (command.left.held) {
+      player.setVelocityX(-160);
+      player.anims.play('left', true);
+    } else if (command.right.held) {
+      player.setVelocityX(160);
+      player.anims.play('right', true);
+    } else {
+      player.setVelocityX(0);
+      player.anims.play('turn');
+    }
+
+    if (command.jump.held && player.body.touching.down) {
+      player.setVelocityY(-330);
+    }
   }
 
   launchTimeSight() {

@@ -91,6 +91,12 @@ export default class PlayScene extends SuperScene {
 
     this.score = 0;
     this.scoreText = this.add.text(16, 16, 'score: 0', {fontSize: '32px', fill: '#000'});
+
+    const bombs = this.bombs = this.physics.add.group();
+
+    this.physics.add.collider(bombs, platforms);
+
+    this.physics.add.collider(player, bombs, this.hitBomb, null, this);
   }
 
   setupAnimations() {
@@ -116,10 +122,37 @@ export default class PlayScene extends SuperScene {
   }
 
   collectStar(player, star) {
+    const {stars, bombs} = this;
+
     star.disableBody(true, true);
 
     this.score += 10;
     this.scoreText.setText(`Score: ${this.score}`);
+
+    if (stars.countActive(true) === 0) {
+      stars.children.iterate((child) => {
+        child.enableBody(true, child.x, 0, true, true);
+      });
+
+      const x = (player.x < 400) ? this.randBetween('bomb', 400, 800) : this.randBetween('bomb', 0, 400);
+
+      const bomb = bombs.create(x, 16, 'bomb');
+      bomb.setBounce(1);
+      bomb.setCollideWorldBounds(true);
+      bomb.setVelocity(this.randBetween('bomb', -200, 200), 20);
+    }
+  }
+
+  hitBomb(player, bomb) {
+    this.physics.pause();
+    player.setTint(0xff0000);
+    player.anims.play('turn');
+
+    // gameOver in the example is undefined…
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => this.replaceWithSelf(),
+    });
   }
 
   fixedUpdate(time, dt) {

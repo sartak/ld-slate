@@ -88,6 +88,9 @@ export default class PlayScene extends SuperScene {
     this.physics.add.collider(stars, platforms);
 
     this.physics.add.overlap(player, stars, this.collectStar, null, this);
+
+    this.score = 0;
+    this.scoreText = this.add.text(16, 16, 'score: 0', {fontSize: '32px', fill: '#000'});
   }
 
   setupAnimations() {
@@ -114,6 +117,9 @@ export default class PlayScene extends SuperScene {
 
   collectStar(player, star) {
     star.disableBody(true, true);
+
+    this.score += 10;
+    this.scoreText.setText(`Score: ${this.score}`);
   }
 
   fixedUpdate(time, dt) {

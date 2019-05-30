@@ -2,6 +2,12 @@ import SuperScene from './scaffolding/SuperScene';
 import prop from './props';
 import analytics from './scaffolding/lib/analytics';
 
+import skyImage from './assets/sky.png';
+import groundImage from './assets/platform.png';
+import starImage from './assets/star.png';
+import bombImage from './assets/bomb.png';
+import dudeImage from './assets/dude.png';
+
 export default class PlayScene extends SuperScene {
   constructor() {
     super({
@@ -38,10 +44,21 @@ export default class PlayScene extends SuperScene {
 
   preload() {
     super.preload();
+
+    this.load.image('sky', skyImage);
+    this.load.image('ground', groundImage);
+    this.load.image('star', starImage);
+    this.load.image('bomb', bombImage);
+    this.load.spritesheet('dude',
+      dudeImage,
+      {frameWidth: 32, frameHeight: 48});
   }
 
   create(config) {
     super.create(config);
+
+    this.add.image(400, 300, 'sky');
+    this.add.image(400, 300, 'star');
   }
 
   setupAnimations() {

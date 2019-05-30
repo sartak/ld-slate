@@ -1,3 +1,9 @@
+[![Jumpcoins](https://github.com/sartak/jumpcoins/blob/master/src/assets/ld-cover.png?raw=true)](https://jumpcoins.sartak.org/)
+
+# Play Live
+
+[https://jumpcoins.sartak.org/](https://jumpcoins.sartak.org/)
+
 # Development
 
 First install the dependencies with `npm install`.

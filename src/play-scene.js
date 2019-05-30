@@ -74,6 +74,20 @@ export default class PlayScene extends SuperScene {
     player.setCollideWorldBounds(true);
 
     this.physics.add.collider(player, platforms);
+
+    const stars = this.stars = this.physics.add.group({
+      key: 'star',
+      repeat: 11,
+      setXY: {x: 12, y: 0, stepX: 70},
+    });
+
+    stars.children.iterate((child) => {
+      child.setBounceY(this.randBetween('stars', 0.4, 0.8));
+    });
+
+    this.physics.add.collider(stars, platforms);
+
+    this.physics.add.overlap(player, stars, this.collectStar, null, this);
   }
 
   setupAnimations() {
@@ -96,6 +110,10 @@ export default class PlayScene extends SuperScene {
       frameRate: 10,
       repeat: -1,
     });
+  }
+
+  collectStar(player, star) {
+    star.disableBody(true, true);
   }
 
   fixedUpdate(time, dt) {

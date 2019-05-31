@@ -175,13 +175,34 @@ export default class PlayScene extends SuperScene {
   }
 
   launchTimeSight() {
+    const {player} = this;
     super.launchTimeSight();
+    player.visible = false;
   }
 
   renderTimeSightFrameInto(scene, phantomDt, time, dt, isLast) {
-    const objects = [];
+    const {player} = this;
 
-    return objects;
+    if (!this.timeSightX) {
+      this.timeSightX = this.timeSightY = 0;
+    }
+
+    const prevX = this.timeSightX;
+    const prevY = this.timeSightY;
+
+    if (Math.sqrt((player.x - prevX) * (player.x - prevX) + (player.y - prevY) * (player.y - prevY)) < 40) {
+      return null;
+    }
+
+    const phantom = scene.physics.add.sprite(player.x, player.y, 'dude');
+    phantom.anims.play(player.anims.currentAnim ? player.anims.currentAnim.key : 'turn');
+    phantom.anims.stop();
+    phantom.alpha = 0.4;
+
+    this.timeSightX = player.x;
+    this.timeSightY = player.y;
+
+    return [phantom];
   }
 
   debugHandlePointerdown(event) {
